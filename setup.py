@@ -6,7 +6,7 @@ setup(
     description='A Python library for elegant data visualization',
     author='Jian Shi',
     license='GPL v3.0',
-    url='https://github.com/jsh9/python-plot-utilities',
+    url='https://github.com/jsh9/python-plot-utils',
     packages = ['plot_utils'],
     classifiers = [
         'Intended Audience :: Science/Research',

@@ -6,14 +6,14 @@ Installation guide
 
 .. code-block:: bash
 
-    pip install git+https://github.com/jsh9/python-plot-utilities
+    pip install git+https://github.com/jsh9/python-plot-utils
 
 2. Install a specific release
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: bash
 
-    pip install git+https://github.com/jsh9/python-plot-utilities@v0.6.8
+    pip install git+https://github.com/jsh9/python-plot-utils@v0.6.8
 
 3. The portable way
 ^^^^^^^^^^^^^^^^^^^

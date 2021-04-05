@@ -15,7 +15,7 @@ Recommended method (in the terminal or command window, execute the following com
 
 .. code-block:: bash
 
-    pip install git+https://github.com/jsh9/python-plot-utilities@v0.6.8
+    pip install git+https://github.com/jsh9/python-plot-utils@v0.6.8
 
 For other installation alternatives, see the `installation guide <installation_guide.html>`_.
 
@@ -110,13 +110,13 @@ API Documentation
 Gallery
 -------
 
-See `here <https://github.com/jsh9/python-plot-utilities#gallery>`_.
+See `here <https://github.com/jsh9/python-plot-utils#gallery>`_.
 
 
 Examples
 --------
 
-Examples are presented as Jupyter notebooks `here <https://github.com/jsh9/python-plot-utilities/tree/master/examples>`_.
+Examples are presented as Jupyter notebooks `here <https://github.com/jsh9/python-plot-utils/tree/master/examples>`_.
 
 
 Copyright and license
@@ -124,13 +124,13 @@ Copyright and license
 
 Copyright: |copy| 2017-2019, Jian Shi
 
-License: `GPL v3.0 <https://github.com/jsh9/python-plot-utilities/blob/master/LICENSE>`_
+License: `GPL v3.0 <https://github.com/jsh9/python-plot-utils/blob/master/LICENSE>`_
 
 
 GitHub repository
 -----------------
 
-https://github.com/jsh9/python-plot-utilities
+https://github.com/jsh9/python-plot-utils
 
 Bug reports and/or suggestions are welcome!
 

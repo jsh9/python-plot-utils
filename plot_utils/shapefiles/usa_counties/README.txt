@@ -1,0 +1,1 @@
+Downloaded from: https://www.census.gov/geo/maps-data/data/cbf/cbf_counties.html in August, 2017.

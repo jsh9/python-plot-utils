@@ -299,7 +299,7 @@ pu.linespecs_demo(line_specs)
 Plots data and error bounds on the same graph.
 
 ```python
-pu.plot_with_error_bounds(data, upper_bound, lower_bound)
+pu.plot_with_error_bounds(x, y, y_upper_bound, y_lower_bound)
 ```
 
 [[doc](https://python-plot-utils.readthedocs.io/en/stable/api_docs/plot_with_bounds.html)], [[example](./examples/Plot_with_error_bounds_example.ipynb)]

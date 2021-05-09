@@ -235,8 +235,8 @@ def plot_multiple_timeseries(
 def fill_timeseries(
         time_series, upper_bound, lower_bound, date_fmt=None,
         fig=None, ax=None, figsize=(10,3), dpi=100,
-        xlabel='Time', ylabel=None, label=None,
-        color=None, lw=3, ls='-', fontsize=12, title=None,
+        xlabel='Time', ylabel=None, line_label=None, shade_label=None,
+        color='orange', lw=3, ls='-', fontsize=12, title=None,
         xgrid_on=True, ygrid_on=True,
 ):
     '''
@@ -269,8 +269,10 @@ def fill_timeseries(
         Label of X axis. Usually "Time" or "Date".
     ylabel : str
         Label of Y axis. Usually the meaning of the data (e.g., "Gas price [$]").
-    label : str
-        Label of data, for plotting legends.
+    line_label : str
+        Label of the line, for plotting legends.
+    shade_label : str
+        Label of the shade, for plotting legends.
     color : str or list or tuple
         Color of line. If None, let Python decide for itself.
     lw : scalar
@@ -307,9 +309,9 @@ def fill_timeseries(
 
     ax.fill_between(
         ts.index, lb, ub, color=color, facecolor=color,
-        linewidth=0.01, alpha=0.5, interpolate=True,
+        linewidth=0.01, alpha=0.25, interpolate=True, label=shade_label,
     )
-    ax.plot(ts.index, ts, color=color, lw=lw, ls=ls, label=label)
+    ax.plot(ts.index, ts, color=color, lw=lw, ls=ls, label=line_label)
     ax.set_label(label)  # set label for legends using argument 'label'
     if xlabel: ax.set_xlabel(xlabel)
     if ylabel: ax.set_ylabel(ylabel)

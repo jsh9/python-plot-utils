@@ -312,7 +312,6 @@ def fill_timeseries(
         linewidth=0.01, alpha=0.25, interpolate=True, label=shade_label,
     )
     ax.plot(ts.index, ts, color=color, lw=lw, ls=ls, label=line_label)
-    ax.set_label(label)  # set label for legends using argument 'label'
     if xlabel: ax.set_xlabel(xlabel)
     if ylabel: ax.set_ylabel(ylabel)
     month_grid_width = float(figsize[0])/_calc_month_interval(ts.index) # width of each month in inches

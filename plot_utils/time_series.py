@@ -348,113 +348,14 @@ def _calc_month_interval(date_array):
     return delta_months
 
 #%%============================================================================
-def _format_xlabel(ax, month_width):
-    '''
-    Format the x axis label (which represents dates) in accordance to the width
-    of each time interval (month or day).
+def _format_xlabel(ax, *args):
+    locator = mpl.dates.AutoDateLocator()
+    formatter = mpl.dates.ConciseDateFormatter(locator)
 
-    For narrower cases, year will be put below month.
+    ax.xaxis.set_major_locator(locator)
+    ax.xaxis.set_major_formatter(formatter)
 
-    For even narrower cases, not every month will be displayed as a label.
-
-    For very narrow cases (e.g., many years), months will not be displayed, and
-    sometimes not every year will be displayed.
-    '''
-    rot = None  # degree of rotation
-    y_int = None  # year interval
-    d_int = None  # day interval
-    if month_width < 0.038:
-        m_int = None  # month interval
-        y_int = 3 * int(0.038/month_width)  # interval increases with narrower size
-    elif month_width < 0.043:
-        m_int = None
-        y_int = 2
-    elif month_width < 0.05:
-        m_int = None
-        rot = 30
-    elif month_width < 0.055:
-        m_int = 6  # display month label for every 6 months
-        rot = 30
-    elif month_width < 0.06:
-        m_int = 6
-    elif month_width < 0.09:
-        m_int = 5
-    elif month_width < 0.11:
-        m_int = 4
-    elif month_width < 0.16:
-        m_int = 3
-    elif month_width < 0.29:
-        m_int = 2
-    else:
-        m_int = 1
-        if month_width < 1.9:
-            pass  # d_int is still None
-        elif month_width < 2.9:
-            d_int = 15
-        elif month_width < 3.5:
-            d_int = 10
-        elif month_width < 4:
-            d_int = 9
-        elif month_width < 5:
-            d_int = 8
-        elif month_width < 6:
-            d_int = 7
-        elif month_width < 7:
-            d_int = 6
-        elif month_width < 8.5:
-            d_int = 5
-        elif month_width < 11:
-            d_int = 4
-        elif month_width < 15:
-            d_int = 3
-            rot = 30
-        elif month_width < 25.5:
-            d_int = 2
-            rot = 30
-        else:
-            d_int = 1
-            rot = 30
-
-    if y_int:  # show only every 'y_int' years
-        years = mpl.dates.YearLocator(base=y_int)
-    else:  # show year on January of every year
-        years = mpl.dates.YearLocator()
-
-    xlim = ax.get_xlim()  # number of days since 0001/Jan/1-00:00:00 UTC plus one
-    xlim_ = [mpl.dates.num2date(i) for i in xlim]  # convert to datetime object
-    if xlim_[0].year == xlim_[1].year:  # if date range is within same year
-        if xlim_[0].day > 1:  # not first day of month: show year on next month
-            years = mpl.dates.YearLocator(base=1,month=xlim_[0].month+1,day=1)
-        else:   # first day of month: show year on this month
-            years = mpl.dates.YearLocator(base=1,month=xlim_[0].month  ,day=1)
-
-    if not d_int:  # no day labels will be shown
-        months_fmt = mpl.dates.DateFormatter('%m')
-    else:
-        months_fmt = mpl.dates.DateFormatter('%m/%d')
-
-    if m_int:  # show every 'm_int' months
-        if d_int:  # day labels will be shown
-            months = mpl.dates.DayLocator(interval=d_int)
-        else:
-            months = mpl.dates.MonthLocator(interval=m_int)
-        ax.xaxis.set_minor_locator(months)
-        ax.xaxis.set_minor_formatter(months_fmt)
-        if d_int and rot:  # days are shown as rotated
-            years_fmt = mpl.dates.DateFormatter('\n\n%Y')  # show year on next next line
-        else:
-            years_fmt = mpl.dates.DateFormatter('\n%Y')  # show year on next line
-    else:  # do not show months in x axis label
-        years_fmt = mpl.dates.DateFormatter('%Y')  # show year on current line
-
-    ax.xaxis.set_major_locator(years)
-    ax.xaxis.set_major_formatter(years_fmt)
     ax.tick_params(labelright=True)  # also show y axis on right edge of figure
-
-    if rot and d_int:  # days/months are shown as rotated
-        plt.setp(ax.xaxis.get_minorticklabels(), rotation=rot)
-    elif rot and not d_int:  # only show years as rotated
-        plt.setp(ax.xaxis.get_majorticklabels(), rotation=rot)
 
     return ax
 
@@ -477,6 +378,7 @@ def _as_date(raw_date, date_fmt=None):
         [1] 201310
         [2] 201210.0
     (D) A pandas Series, of length 1 or length larger than 1
+    (E) A list of Python datetime object
 
     Parameters
     ----------
@@ -514,7 +416,7 @@ def _as_date(raw_date, date_fmt=None):
             if len(raw_date) == 0:  # empty list
                 date_list = None   # return an empty object
             elif len(raw_date) == 1:  # length of string is 1
-                date_ = str(int(raw_date[0]))  # simply unpack it and convert to str int
+                date_ = str(int(raw_date[0])) # unpack and convert to str
                 date_list = pd.to_datetime(date_, format=date_fmt)
             else:  # length is larger than 1
                 nr = len(raw_date)
@@ -527,9 +429,10 @@ def _as_date(raw_date, date_fmt=None):
                         date_ = j_th
                     elif isinstance(j_th,(int,np.integer,np.float)):
                         date_ = str(int(j_th))  # robustness not guarenteed!
+                    elif isinstance(j_th, dt.datetime):
+                        date_ = j_th.strftime('%Y-%m-%d')
                     else:
-                        raise TypeError('Date type of the element(s) in '
-                                        '`raw_date` not recognized.')
+                        raise TypeError('Invalid data type in `raw_date')
                     date_list[j] = pd.to_datetime(date_, format=date_fmt)
         elif type(raw_date) == dt.date:  # if a datetime.date object
             date_list = raw_date  # no need for conversion

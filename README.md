@@ -25,7 +25,7 @@ This is a Python module that contains some useful data visualization tools.
 
 In a command-line terminal, execute the following command:
 
-`pip install git+https://github.com/jsh9/python-plot-utils@v0.6.10`
+`pip install git+https://github.com/jsh9/python-plot-utils@v0.6.11`
 
 ##### Note:
 

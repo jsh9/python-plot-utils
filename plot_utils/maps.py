@@ -13,18 +13,18 @@ from . import helper as hlp
 basemap_error_msg = '\nPlease install Basemap in order to use ' \
                     '`choropleth_map_state()`.\n' \
                     'To install with conda (recommended):\n' \
-                    '    >>> conda install basemap\n' \
+                    '    >>> conda install -c anaconda basemap\n' \
                     'To install without conda, refer to:\n' \
                     '    https://matplotlib.org/basemap/users/installing.html'
 
-proj_lib_error_msg = 'Due to a bug in conda, the environmental variable ' \
+proj_lib_error_msg = 'Due to a bug in conda, the environment variable ' \
                      '"PROJ_LIB" is not correctly configured. Please ' \
-                     'manually add the path to "proj4" as an environmental' \
+                     'manually add the path to "pyproj" as an environment' \
                      ' variable "PROJ_LIB" on your system.\n\n' \
-                     'The path to "proj4" is usually in ' \
-                     '<anaconda_path>/pkgs/proj4-<version>/Library/share' \
+                     'The path to "pyproj" is usually in ' \
+                     '<anaconda_path>/pkgs/pyproj-<version>/Library/share' \
                      '\n\n' \
-                     'To add environmental variables in Windows:\n' \
+                     'To add environment variables in Windows:\n' \
                      '  Control panel --> System properties --> ' \
                      'Environment variables... \n    --> "User variables for USERNAME"' \
                      '--> New...\n    ' \

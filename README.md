@@ -119,13 +119,13 @@ Using the "Titanic dataset" as example:
 ```python
 titanic = pd.read_csv('./examples/datasets/titanic3.csv')
 titanic.rename(index=str, columns={'pclass':'ticket_class'}, inplace=True)
-titanic['embarked'] = titanic['embarked'].map({'S':'Southampton',
-                                               'C':'Cherbourg',
-                                               'Q':'Queenstown'})
+titanic['embarked'] = titanic['embarked'].map(
+    {'S':'Southampton', 'C':'Cherbourg', 'Q':'Queenstown'}
+)
 
-pu.bin_and_mean(titanic['age'], titanic['fare'], figsize=(5,3))
+pu.bin_and_mean(titanic['age'], titanic['fare'], figsize=(5, 3))
 pu.category_means(titanic['ticket_class'], titanic['fare'])
-pu.positive_rate(titanic['ticket_class'], titanic['survived'], figsize=(5,2))
+pu.positive_rate(titanic['ticket_class'], titanic['survived'], figsize=(5, 2))
 pu.contingency_table(titanic['ticket_class'], titanic['embarked'], dropna=True, rot=0)
 ```
 
@@ -348,6 +348,6 @@ I did not built every function of this module entirely from scratch. I documente
 
 ## Copyright and license
 
-(c) 2017-2019, Jian Shi
+(c) 2017-2022, Jian Shi
 
 License: GPL v3.0

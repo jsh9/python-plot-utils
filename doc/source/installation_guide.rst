@@ -6,19 +6,14 @@ Installation guide
 
 .. code-block:: bash
 
-    pip install git+https://github.com/jsh9/python-plot-utils
+    pip install plot-utils
 
 2. Install a specific release
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: bash
 
-    pip install git+https://github.com/jsh9/python-plot-utils@v0.6.12
-
-3. The portable way
-^^^^^^^^^^^^^^^^^^^
-
-Just download this repository, and you can put ``plot_utils.py`` anywhere within your Python search path.
+    pip install git+https://github.com/jsh9/python-plot-utils@v0.6.13
 
 Note
 ^^^^

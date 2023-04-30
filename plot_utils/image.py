@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+import math
 import matplotlib.pyplot as plt
 
 from .colors_and_lines import Color
@@ -16,6 +17,8 @@ def trim_img(
         show_old_img=False,
         show_new_img=False,
         forcibly_overwrite=False,
+        resize=False,
+        resize_ratio=1.0,
 ):
     '''
     Trim the margins of image file(s) on the hard drive, and (optionally)
@@ -47,10 +50,17 @@ def trim_img(
     forcibly_overwrite : bool
         Whether or not to overwrite an image on the hard drive with the same
         name. Only applicable when ``inplace`` is ``False``.
+    resize : bool
+        Whether to resize the padded image
+    resize_ratio : float
+        The image resizing ratio.  It has no effect if ``resize` is false.
+        For example, if it's 0.5, it means resizing to 50% of the original
+        width and height.
     '''
     try:
         import PIL
         import PIL.ImageOps
+        from PIL import Image
     except ImportError:
         raise ImportError(
             '\nPlease install PIL in order to use `trim_img()`.\n'
@@ -85,6 +95,11 @@ def trim_img(
         pad_color_rgb = Color(pad_color).as_rgb(normalize=False)
         im3 = PIL.ImageOps.expand(im2, border=pad_width, fill=pad_color_rgb)
 
+        if resize:
+            new_width = im3.width
+            new_height = im3.height
+            im3 = im3.resize((new_width, new_height), Image.ANTIALIAS)
+
         if show_new_img:
             plt.imshow(im3)
             plt.xticks([])
@@ -115,9 +130,9 @@ def trim_img(
 def pad_img(
         files, target_aspect_ratio=1.0, pad_color='white', inplace=False,
         verbose=True, show_old_img=False, show_new_img=False,
-        forcibly_overwrite=False,
+        forcibly_overwrite=False, resize=False, new_width_height=(640, 480),
 ):
-    '''
+    """
     Pad empty edges to images so that they meet the target aspect ratio (i.e.,
     more square).
 
@@ -144,10 +159,17 @@ def pad_img(
     forcibly_overwrite : bool
         Whether or not to overwrite an image on the hard drive with the same
         name. Only applicable when ``inplace`` is ``False``.
-    '''
+    resize : bool
+        Whether to resize the padded image
+    new_width_height : (int, int)
+        The new image width and height.  It has no effect if ``resize` is false,
+        and there will be an error if the provided aspect ratio doesn't match
+        ``target_aspect_ratio``.
+    """
     try:
         import PIL
         import PIL.ImageOps
+        from PIL import Image
     except ImportError:
         raise ImportError(
             '\nPlease install PIL in order to use `trim_img()`.\n'
@@ -158,7 +180,7 @@ def pad_img(
         )
 
     if target_aspect_ratio > 1.0 :
-        raise ValueError('`target_aspect_ratio should be <= 1.0.`')
+        raise ValueError('`target_aspect_ratio` should be <= 1.0.')
 
     if not isinstance(files,(list,tuple)):
         files = [files]
@@ -204,6 +226,15 @@ def pad_img(
         im1 = PIL.Image.new('RGB', new_img_size, color=pad_color_rgb)
         im1.paste(im0, box=upper_left_corner_coord)
 
+        if resize:
+            new_width, new_height = new_width_height
+            shorter_side = min(new_width, new_height)
+            longer_side = max(new_width, new_height)
+            if not math.isclose(shorter_side / longer_side, target_aspect_ratio):
+                raise ValueError('The new dimension must match `target_aspect_ratio`')
+
+            im1 = im1.resize((new_width, new_height), Image.ANTIALIAS)
+
         if show_new_img:
             plt.imshow(im1)
             plt.xticks([])
@@ -229,4 +260,3 @@ def pad_img(
             im1.save(filename)
             if verbose:
                 print('  Original image file overwritten.')
-

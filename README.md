@@ -1,5 +1,12 @@
 # Python plotting utilities: `plot_utils`
 
+[![PyPI](https://img.shields.io/pypi/v/plot-utils)](https://pypi.org/project/plot-utils/)
+[![Documentation Status](https://readthedocs.org/projects/python-plot-utils/badge/?version=stable)](https://python-plot-utils.readthedocs.io/en/stable/?badge=stable)
+[![Downloads](https://static.pepy.tech/badge/plot-utils)](https://pepy.tech/project/plot-utils)
+[![Downloads](https://static.pepy.tech/badge/plot-utils/month)](https://pepy.tech/project/plot-utils)
+[![Downloads](https://static.pepy.tech/badge/plot-utils/week)](https://pepy.tech/project/plot-utils)
+
+
 This is a Python module that contains some useful data visualization tools.
 
 **Table of contents:**

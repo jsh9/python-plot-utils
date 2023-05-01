@@ -1,4 +1,4 @@
-__version__ = 'v0.6.13'
+__version__ = 'v0.6.14'
 
 from .helper import *
 from .helper import _find_axes_lim

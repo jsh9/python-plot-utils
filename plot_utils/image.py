@@ -199,25 +199,37 @@ def pad_img(
         width = im0.size[0]
         height = im0.size[1]
 
+        print(f'Original image resolution: {width} x {height}')
+
         if width >= height:  # landscape layout
-            padded_width = width
+            print('Input image is in landscape layout')
             if width * target_aspect_ratio > height:  # image too wide
+                print('Image too wide')
+                padded_width = width
                 padded_height = width * target_aspect_ratio
                 pad_length_single_side = int(padded_height - height) // 2
                 upper_left_corner_coord = (0, pad_length_single_side)
             else:
+                print('Image too narrow')
                 padded_height = height
-                upper_left_corner_coord = (0, 0)
+                padded_width = height / target_aspect_ratio
+                pad_length_single_side = int(padded_width - width) // 2
+                upper_left_corner_coord = (pad_length_single_side, 0)
             # END IF
         else:  # portrait layout
-            padded_height = height
+            print('Input image is in portrait layout')
             if height * target_aspect_ratio > width:  # image too narrow
+                print('Image too narrow')
+                padded_height = height
                 padded_width = height * target_aspect_ratio
                 pad_length_single_side = int(padded_width - width) // 2
                 upper_left_corner_coord = (pad_length_single_side, 0)
             else:
+                print('Image too wide')
                 padded_width = width
-                upper_left_corner_coord = (0, 0)
+                padded_height = width / target_aspect_ratio
+                pad_length_single_side = int(padded_height - height) // 2
+                upper_left_corner_coord = (0, pad_length_single_side)
             # END IF
         # END IF
 
@@ -225,6 +237,8 @@ def pad_img(
         pad_color_rgb = Color(pad_color).as_rgb(normalize=False)
         im1 = PIL.Image.new('RGB', new_img_size, color=pad_color_rgb)
         im1.paste(im0, box=upper_left_corner_coord)
+
+        print(f'After padding: {new_img_size}')
 
         if resize:
             new_width, new_height = new_width_height
